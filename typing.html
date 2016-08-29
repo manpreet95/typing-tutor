@@ -1,0 +1,164 @@
+<!doctype html>
+<html>
+	<head>
+	<style>
+		.txt{
+			padding:12px;
+			margin-top:20px;
+			border-radius:6px;
+			height:50px;
+			font-size:190%;
+			border:none;
+			outline:none;
+			font-family:"Palatino Linotype";
+		}
+		body{
+			margin-top:20px;
+			padding:20px;
+			background-image:url("background.jpg");
+			background-size:cover;
+			font-family:"Palatino Linotype";
+		}
+		.btn{
+			width:100%;
+			height:50px;
+			border:none;
+			background:rgba(60,60,60,.6);
+			font-size:110%;
+			color: white;
+			outline:none;
+			font-family:"Palatino Linotype";
+		}
+		.box{
+			padding:10px;
+			background:rgba(10,10,10,0.3);
+		}
+		.tablehd{
+			padding:15px 10px 0px 10px;
+			height:50px;
+			background:rgba(10,10,10,0.3);
+		}
+		.largediv{
+			background:rgba(3,3,3,.15);
+			padding:20px 30px 80px 30px;
+			border-radius:5px;
+		}
+    </style>
+    <script>
+		var no="",m,s,typed,done,right=0,exit=0,started=0,key=0,textdata="";
+		var abc=new Array(53);
+		var i=0,j=0;
+		var asci=65,a="";
+		for(i=0,j=0;i<58;i++)
+		{
+			if(i<26||i>31)
+			{
+				abc[j]=String.fromCharCode(asci);
+				j++;
+			}
+			asci++;
+		}
+		abc[52]=' ';
+		function text()
+		{	
+			no+=abc[parseInt(Math.random()*52)];
+			for(i=1;i<48;i++)
+					no+=abc[parseInt(Math.random()*53)];
+			no+=abc[parseInt(Math.random()*52)];
+			document.write(no);
+	
+		}
+		function timer()
+		{
+			s=parseInt(document.getElementById('time').value.substring(3,5))+1;
+			m=parseInt(document.getElementById('time').value.substring(0,2));
+			if(s==60)
+			{
+				s=00;
+				m=parseInt(document.getElementById('time').value.substring(0,2))+1;
+			}
+			if(m<10&&s<10)
+			{
+				document.getElementById('time').value="0"+m+":0"+s;
+			}
+			else if(m<10&&s>9)
+			{
+				document.getElementById('time').value="0"+m+":"+s;
+			}
+			else if(s<10&&m>9)
+			{
+				document.getElementById('time').value=m+":0"+s;
+			}
+			else
+			{
+				document.getElementById('time').value=m+":"+s;
+			}
+		}
+		function check()
+		{
+			key= event.keyCode || event.charCode;
+			if(key>=65&&key<=90)
+			{
+				if(exit==0)
+				{
+					typed=document.getElementById('textbox').value;
+					done=typed.length;
+					if(typed.charAt(done-1)===no.charAt(done-1))
+					{
+						right++;
+					}
+					document.getElementById('cmplt').value=parseInt(((done/50)*100))+"%";
+					document.getElementById('acurcy').value=parseFloat(((right/done)*100)).toFixed(2)+"%";
+					if(no.length==done)
+					{
+						window.clearInterval(indent);
+						exit=1;
+						document.getElementById("textbox").style.disabled=true;
+					}
+					if(done>0&&started!=1)
+					{
+						started=1;
+						indent=window.setInterval("timer()",1000);
+					}
+				}
+			}
+			else if(key!=16 && key!=17 && key!=18 && key!=116)
+			{
+				document.getElementById('textbox').value=textdata;
+			}
+			textdata=document.getElementById('textbox').value;
+		}
+		
+	</script>	
+    </head>
+    <body>
+    <div align="center" class="largediv">
+    	<h1>Typing Tutor</h1>
+    	<table width="95%" height="300" cellspacing="0" cellpadding="0">
+        	<tr align="center">
+            	
+                <td width="33%"><font size="+2"><div class="tablehd" style="border-top-left-radius:5px; border-right:solid Gray;">Time</div></font></td>
+                <td width="33%"><font size="+2"><div class="tablehd">Completed</div></font></td>
+                <td width="33%"><font size="+2"><div class="tablehd" style="border-top-right-radius:5px; border-left:solid Gray;">Accuracy</div></font></td>
+                
+            </tr>
+        	<tr align="center">
+            	<td><input type="button" class="btn" value="00:00" id="time"></td>
+                <td><input type="button" class="btn" value="0%" id="cmplt"></td>
+                <td><input type="button" class="btn" value="0%" id="acurcy"></td>
+            </tr>
+            <tr align="center">
+				<td colspan="3"><div class="box" style="border-bottom:dashed 1px;"><font size="+3">Content:</font></div></td>
+            </tr>
+			<tr align="center">
+				<td colspan="3"><font size="+3"><div class="tablehd" style="background:rgba(255,255,255,0.6)"><script> text();</script></div></font></td>
+            </tr>
+            <tr align="center">
+    			<td colspan="3"><div class="tablehd" style="height:130px;border-bottom-right-radius:20px;border-bottom-left-radius:20px;">
+					<input type="text" onKeyup="javascript:check();" class="txt" id="textbox" size="60" maxlength="50" autofocus/></div></td>
+            </tr>
+        </table>
+     </div>   
+    	
+    </body>	
+</html>
